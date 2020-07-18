@@ -1,18 +1,17 @@
 package com.dauut.EksiDebeFetcher.service.htmlservices;
 
 import com.dauut.EksiDebeFetcher.utils.ConfigurationParams;
-import org.apache.logging.log4j.LogManager;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class HTMLFetcher {
 
-    private static final Logger logger = Logger.getLogger(String.valueOf(HTMLFetcher.class));
+    private static final Logger logger = LogManager.getLogger(HTMLFetcher.class);
 
     public Document getDebePageDocument() {
         Document doc = null;
@@ -20,7 +19,7 @@ public class HTMLFetcher {
         try {
             doc = Jsoup.connect(ConfigurationParams.DEBE_BASE_URL).get();
         } catch (IOException e) {
-            logger.log(Level.SEVERE, "ERROR while fetching " + ConfigurationParams.DEBE_BASE_URL + "!!!");
+            logger.error("ERROR while fetching " + ConfigurationParams.DEBE_BASE_URL + "!!!");
             e.printStackTrace();
         }
         return doc;

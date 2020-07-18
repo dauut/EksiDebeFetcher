@@ -2,6 +2,9 @@ package com.dauut.EksiDebeFetcher.service.htmlservices;
 
 
 import com.dauut.EksiDebeFetcher.utils.ConfigurationParams;
+import org.apache.logging.log4j.Level;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
@@ -11,9 +14,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 public class HtmlParser {
 
     @NotNull
@@ -26,23 +26,23 @@ public class HtmlParser {
         this.htmlFetcher = htmlFetcher;
         this.htmlPageDoc = htmlPageDoc;
     }
-    private static final Logger logger = Logger.getLogger(String.valueOf(HtmlParser.class));
+    private static final Logger logger = LogManager.getLogger(HtmlParser.class);
 
-    public List<String> collectHeaders() throws IOException {
+    public List<String> collectHeaders() {
         final List<String> entryHeaders = new ArrayList<>();
         Elements headerElements = htmlFetcher.getEntriesHeaders(htmlPageDoc);
         fillStringList(headerElements, entryHeaders, false);
         return entryHeaders;
     }
 
-    public List<String> collectEntryUrls() throws IOException {
+    public List<String> collectEntryUrls() {
         final List<String> entryUrls = new ArrayList<>();
         Elements urlElements = htmlFetcher.getEntryLinks(htmlPageDoc);
         fillStringList(urlElements, entryUrls, true);
         return entryUrls;
     }
 
-    public List<Integer> collectEntryIds() throws IOException {
+    public List<Integer> collectEntryIds() {
         final List<Integer> idList = new ArrayList<>();
         Elements linksElement = htmlFetcher.getEntryLinks(htmlPageDoc);
         fillIntegerList(linksElement, idList);
@@ -54,14 +54,15 @@ public class HtmlParser {
         Map<Integer, String> idMap = new HashMap<>();
 
         if (strList.size() != idList.size()){
-            logger.log(Level.SEVERE,"Can not mapping: Id list and entry list are not in same size!");
+            logger.error("Can not mapping: Id list and entry list are not in same size!");
+
             return new HashMap<>();
         }
 
         for (int i = 0; i < strList.size(); i++){
             idMap.put(idList.get(i), strList.get(i));
         }
-        logger.log(Level.INFO, ("ID:LIST Map successfully created!"));
+        logger.info( "ID:LIST Map successfully created!");
         return idMap;
     }
 
@@ -74,7 +75,7 @@ public class HtmlParser {
             }
         }
 
-        logger.log(Level.INFO, (isUrl ? "Url list successfully collected!" : "Header list successfully collected!"));
+        logger.info(isUrl ? "Url list successfully collected!" : "Header list successfully collected!");
     }
 
     private void fillIntegerList(Elements linksElement, List<Integer> list) {
@@ -83,7 +84,7 @@ public class HtmlParser {
             list.add(Integer.parseInt(urlParse[2]));
         }
 
-        logger.log(Level.INFO, "Id list collected!");
+        logger.info("Id list collected!");
     }
 
 
