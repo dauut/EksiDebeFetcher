@@ -1,22 +1,26 @@
 package com.dauut.EksiDebeFetcher.model;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.List;
 import java.util.Objects;
 
 public class Author {
+    @NotNull
     private String nick;
+    @NotNull
     private String URL;
     private List<String> badges;
     private ActivityDetails activityDetails;
 
-    public Author(String nick, String URL, List<String> badges, ActivityDetails activityDetails) {
+    public Author(@NotNull String nick, @NotNull String URL, List<String> badges, ActivityDetails activityDetails) {
         this.nick = nick;
         this.URL = URL;
         this.badges = badges;
         this.activityDetails = activityDetails;
     }
 
-    public Author(String nick, String URL, ActivityDetails activityDetails) {
+    public Author(@NotNull String nick, @NotNull String URL, ActivityDetails activityDetails) {
         this.nick = nick;
         this.URL = URL;
         this.activityDetails = activityDetails;
@@ -26,7 +30,7 @@ public class Author {
         return nick;
     }
 
-    public void setNick(String nick) {
+    public void setNick(@NotNull String nick) {
         this.nick = nick;
     }
 
@@ -34,7 +38,7 @@ public class Author {
         return URL;
     }
 
-    public void setURL(String URL) {
+    public void setURL(@NotNull String URL) {
         this.URL = URL;
     }
 
