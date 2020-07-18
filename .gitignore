@@ -31,3 +31,6 @@ build/
 
 ### VS Code ###
 .vscode/
+/src/main/java/Main.java
+/mvnw.cmd
+/mvnw
