@@ -1,50 +1,47 @@
-package com.dauut.EksiDebeFetcher.service.htmlservices;
+package com.dauut.EksiDebeFetcher.dao.htmlfetcher;
 
 
 import com.dauut.EksiDebeFetcher.utils.ConfigurationParams;
-import org.apache.logging.log4j.Level;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
-import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
+import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-public class HtmlParser {
 
-    @NotNull
-    HTMLFetcher htmlFetcher;
+@Repository
+public class HtmlParseServiceImp implements HtmlParseService{
 
-    @NotNull
-    Document htmlPageDoc;
+    private static final Logger logger = LogManager.getLogger(HtmlParseServiceImp.class);
 
-    public HtmlParser(@NotNull HTMLFetcher htmlFetcher, @NotNull Document htmlPageDoc) {
+    @NotNull private final HtmlFetcher htmlFetcher;
+
+    public HtmlParseServiceImp(@NotNull HtmlFetcher htmlFetcher) {
         this.htmlFetcher = htmlFetcher;
-        this.htmlPageDoc = htmlPageDoc;
     }
-    private static final Logger logger = LogManager.getLogger(HtmlParser.class);
 
     public List<String> collectHeaders() {
         final List<String> entryHeaders = new ArrayList<>();
-        Elements headerElements = htmlFetcher.getEntriesHeaders(htmlPageDoc);
+        Elements headerElements = htmlFetcher.getEntriesHeaders();
         fillStringList(headerElements, entryHeaders, false);
         return entryHeaders;
     }
 
     public List<String> collectEntryUrls() {
         final List<String> entryUrls = new ArrayList<>();
-        Elements urlElements = htmlFetcher.getEntryLinks(htmlPageDoc);
+        Elements urlElements = htmlFetcher.getEntryLinks();
         fillStringList(urlElements, entryUrls, true);
         return entryUrls;
     }
 
     public List<Integer> collectEntryIds() {
         final List<Integer> idList = new ArrayList<>();
-        Elements linksElement = htmlFetcher.getEntryLinks(htmlPageDoc);
+        Elements linksElement = htmlFetcher.getEntryLinks();
         fillIntegerList(linksElement, idList);
         return idList;
     }

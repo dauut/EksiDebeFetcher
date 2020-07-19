@@ -11,7 +11,9 @@ public class ActivityDetails {
     private List<Entry> topTenLikedEntries;
     private List<Entry> lastTenFaves;
 
-    public ActivityDetails(int totalEntryCount, int totalEntryCountInLastMonth, int totalEntryCountInLastWeek, List<Entry> topTenFavoriteEntries, List<Entry> topTenLikedEntries, List<Entry> lastTenFaves) {
+    public ActivityDetails(int totalEntryCount, int totalEntryCountInLastMonth, int totalEntryCountInLastWeek,
+                           List<Entry> topTenFavoriteEntries, List<Entry> topTenLikedEntries,
+                           List<Entry> lastTenFaves) {
         this.totalEntryCount = totalEntryCount;
         this.totalEntryCountInLastMonth = totalEntryCountInLastMonth;
         this.totalEntryCountInLastWeek = totalEntryCountInLastWeek;

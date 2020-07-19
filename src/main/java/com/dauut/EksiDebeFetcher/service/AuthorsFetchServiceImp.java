@@ -1,4 +1,4 @@
 package com.dauut.EksiDebeFetcher.service;
 
-public class ActivitiesFetchService {
+public class AuthorsFetchServiceImp {
 }
