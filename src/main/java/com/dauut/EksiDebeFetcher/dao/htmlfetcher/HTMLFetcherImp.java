@@ -29,6 +29,7 @@ public class HTMLFetcherImp implements HtmlFetcher {
     }
 
     public Elements getEntriesListSection() {
+        createTodayHtmlPageDoc();
         return htmlPageDoc.getElementsByClass(ConfigurationParams.TOPIC_LIST_HEADER);
     }
 

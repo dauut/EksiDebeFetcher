@@ -9,6 +9,7 @@ public class Debe {
 
     @NotNull
     private List<Entry> debeEntries;
+
     @NotNull
     private LocalDate date;
     private int entryCount;
@@ -19,7 +20,7 @@ public class Debe {
         this.entryCount = entryCount;
     }
 
-    public List<Entry> getDebeEntries() {
+    public @NotNull List<Entry> getDebeEntries() {
         return debeEntries;
     }
 
@@ -27,7 +28,7 @@ public class Debe {
         this.debeEntries = debeEntries;
     }
 
-    public LocalDate getDate() {
+    public @NotNull LocalDate getDate() {
         return date;
     }
 

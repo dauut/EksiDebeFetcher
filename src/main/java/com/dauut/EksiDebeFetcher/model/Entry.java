@@ -8,20 +8,28 @@ public class Entry {
     private int entryId;
     @NotNull
     private String url;
-    @NotNull
     private String creationDate;
     private String editDate;
     private int favCount;
-    @NotNull
     private Author author;
+    @NotNull
+    private String header;
 
-    public Entry(int entryId, @NotNull String url, @NotNull String creationDate, String editDate, int favCount, @NotNull Author author) {
+    public Entry(int entryId, @NotNull String url, String creationDate, String editDate, int favCount,
+                 Author author, @NotNull String header) {
         this.entryId = entryId;
         this.url = url;
         this.creationDate = creationDate;
         this.editDate = editDate;
         this.favCount = favCount;
         this.author = author;
+        this.header = header;
+    }
+
+    public Entry(int entryId, @NotNull String url, @NotNull String header) {
+        this.entryId = entryId;
+        this.url = url;
+        this.header = header;
     }
 
     public int getEntryId() {
@@ -32,7 +40,7 @@ public class Entry {
         this.entryId = entryId;
     }
 
-    public String getUrl() {
+    public @NotNull String getUrl() {
         return url;
     }
 
@@ -72,6 +80,14 @@ public class Entry {
         this.author = author;
     }
 
+    public @NotNull String getHeader() {
+        return header;
+    }
+
+    public void setHeader(@NotNull String header) {
+        this.header = header;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -79,14 +95,15 @@ public class Entry {
         Entry entry = (Entry) o;
         return entryId == entry.entryId &&
                 favCount == entry.favCount &&
-                Objects.equals(url, entry.url) &&
+                url.equals(entry.url) &&
                 Objects.equals(creationDate, entry.creationDate) &&
                 Objects.equals(editDate, entry.editDate) &&
-                Objects.equals(author, entry.author);
+                Objects.equals(author, entry.author) &&
+                header.equals(entry.header);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(entryId, url, creationDate, editDate, favCount, author);
+        return Objects.hash(entryId, url, creationDate, editDate, favCount, author, header);
     }
 }
