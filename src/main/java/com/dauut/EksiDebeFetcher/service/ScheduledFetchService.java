@@ -18,7 +18,7 @@ public class ScheduledFetchService {
         this.debeListBuildService = debeListBuildService;
     }
 
-    @Scheduled(cron = "*/120 * * * * *")
+    @Scheduled(cron = "*/10 * * * * *")
     public void fetchDebeList() {
         logger.info("Fetch debe list started");
         Debe debe = debeListBuildService.buildDebe();
