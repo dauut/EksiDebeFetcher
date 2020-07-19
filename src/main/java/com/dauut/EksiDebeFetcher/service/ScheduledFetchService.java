@@ -19,7 +19,7 @@ public class ScheduledFetchService {
     }
 
     @Scheduled(cron = "*/120 * * * * *")
-    public void reportCurrentTime() {
+    public void fetchDebeList() {
         logger.info("Fetch debe list started");
         Debe debe = debeListBuildService.buildDebe();
         for (Entry e: debe.getDebeEntries()){
