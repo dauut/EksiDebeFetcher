@@ -14,7 +14,7 @@ import java.io.IOException;
 public class HTMLFetcherImp implements HtmlFetcher {
 
     private static final Logger logger = LogManager.getLogger(HTMLFetcherImp.class);
-    private static Document htmlPageDoc;
+    private static Document htmlPageDoc; //since we need same page during collection
 
     public void createTodayHtmlPageDoc() {
         Document doc = null;
@@ -29,7 +29,7 @@ public class HTMLFetcherImp implements HtmlFetcher {
     }
 
     public Elements getEntriesListSection() {
-        createTodayHtmlPageDoc();
+//        createTodayHtmlPageDoc();
         return htmlPageDoc.getElementsByClass(ConfigurationParams.TOPIC_LIST_HEADER);
     }
 
