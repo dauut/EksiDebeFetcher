@@ -34,4 +34,4 @@ build/
 /src/main/java/Main.java
 /mvnw.cmd
 /mvnw
-src/main/resources/application.properties
+/src/main/resources/application.properties
