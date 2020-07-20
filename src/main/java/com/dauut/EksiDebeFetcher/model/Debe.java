@@ -11,6 +11,8 @@ public class Debe {
 
     @NotNull
     private List<Entry> debeEntries;
+    @NotNull
+    private List<EntryAudit> debeEntriesAudit;
 
     @NotNull
     private LocalDate date;
@@ -19,8 +21,9 @@ public class Debe {
     @NotNull
     private LocalDateTime listCreationTime;
 
-    public Debe(@NotNull List<Entry> debeEntries, @NotNull LocalDate date, int entryCount, @NotNull LocalDateTime creationTime) {
+    public Debe(@NotNull List<Entry> debeEntries, @NotNull List<EntryAudit> debeEntriesAudit, @NotNull LocalDate date, int entryCount, @NotNull LocalDateTime creationTime) {
         this.debeEntries = debeEntries;
+        this.debeEntriesAudit = debeEntriesAudit;
         this.date = date;
         this.entryCount = entryCount;
         this.listCreationTime = creationTime;
@@ -58,6 +61,14 @@ public class Debe {
         this.listCreationTime = listCreationTime;
     }
 
+    public @NotNull List<EntryAudit> getDebeEntriesAudit() {
+        return debeEntriesAudit;
+    }
+
+    public void setDebeEntriesAudit(@NotNull List<EntryAudit> debeEntriesAudit) {
+        this.debeEntriesAudit = debeEntriesAudit;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -65,11 +76,13 @@ public class Debe {
         Debe debe = (Debe) o;
         return entryCount == debe.entryCount &&
                 debeEntries.equals(debe.debeEntries) &&
-                date.equals(debe.date);
+                debeEntriesAudit.equals(debe.debeEntriesAudit) &&
+                date.equals(debe.date) &&
+                listCreationTime.equals(debe.listCreationTime);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(debeEntries, date, entryCount);
+        return Objects.hash(debeEntries, debeEntriesAudit, date, entryCount, listCreationTime);
     }
 }

@@ -3,6 +3,9 @@ package com.dauut.EksiDebeFetcher.service;
 import com.dauut.EksiDebeFetcher.dao.htmlfetcher.HtmlParseService;
 import com.dauut.EksiDebeFetcher.model.Debe;
 import com.dauut.EksiDebeFetcher.model.Entry;
+import com.dauut.EksiDebeFetcher.model.EntryAudit;
+import com.dauut.EksiDebeFetcher.utils.ConfigurationParams;
+import com.dauut.EksiDebeFetcher.utils.LocalTimeHelper;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
@@ -17,7 +20,6 @@ import java.util.Map;
 public class DebeListBuildServiceImp implements DebeListBuildService {
 
     private static final Logger logger = LogManager.getLogger(DebeListBuildServiceImp.class);
-    private static final String ISTANBUL_TIME_ZONE = "Europe/Istanbul";
 
     @NotNull
     private final HtmlParseService htmlParseService;
@@ -30,16 +32,20 @@ public class DebeListBuildServiceImp implements DebeListBuildService {
     // can private, decide later
     public List<Entry> fetchEntryList() {
         List<Entry> entryList = new ArrayList<>();
+
         List<String> headers = htmlParseService.collectHeaders();
         List<String> urls = htmlParseService.collectEntryUrls();
         List<Integer> idList = htmlParseService.collectEntryIds();
-        logger.info("Debe lists collected. headerList: " + headers.size() + "; urls: " + urls.size()+
-                "; idList: " + idList.size() );
+
+        logger.info("Debe lists collected. headerList: " + headers.size() + "; urls: " + urls.size() +
+                "; idList: " + idList.size());
+
         buildEntryList(headers, urls, idList, entryList);
         return entryList;
     }
 
-    private void buildEntryList(List<String> headers, List<String> urls, List<Integer> idList, List<Entry> entryList) {
+    private void buildEntryList(List<String> headers, List<String> urls, List<Integer> idList,
+                                List<Entry> entryList) {
         int size = headers.size();
 
         for (int i = 0; i < size; i++) {
@@ -59,14 +65,31 @@ public class DebeListBuildServiceImp implements DebeListBuildService {
     @Override
     public Debe buildDebe() {
 
+        LocalTimeHelper timeHelper = new LocalTimeHelper(ConfigurationParams.ISTANBUL_TIME_ZONE);
+
+        LocalDateTime localTime = timeHelper.getZonedLocalDateTimeNow();
+        LocalDate debeDate = timeHelper.getZonedLocalDateNow();
         List<Entry> entryList = fetchEntryList();
-        LocalDate today = LocalDate.now();
+        List<EntryAudit> debeEntriesAudit = fetchEntryAudits(debeDate, entryList);
         int entryCount = entryList.size();
 
-        Instant now = Instant.now();
-        ZonedDateTime istanbulDateTime = now.atZone(ZoneId.of(ISTANBUL_TIME_ZONE));
-        LocalDateTime istanbulLocaltime = istanbulDateTime.toLocalDateTime();
+        logger.info("Debe list built. Debe Date: " + debeDate + "; entry count: " + entryCount + "; ");
 
-        return new Debe(entryList,today,entryCount, istanbulLocaltime);
+        return new Debe(entryList, debeEntriesAudit, debeDate, entryCount, localTime);
+    }
+
+    private List<EntryAudit> fetchEntryAudits(LocalDate debeDate, List<Entry> entryList) {
+        List<EntryAudit> entryAuditList = new ArrayList<>();
+
+        for (Entry e : entryList) {
+            EntryAudit audit = new EntryAudit();
+            audit.setDate(debeDate);
+            audit.setEntryId(e.getEntryId());
+            audit.setHeader(e.getHeader());
+            audit.setUrl(e.getUrl());
+            entryAuditList.add(audit);
+        }
+
+        return entryAuditList;
     }
 }

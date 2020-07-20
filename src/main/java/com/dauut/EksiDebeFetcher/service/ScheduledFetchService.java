@@ -1,13 +1,16 @@
 package com.dauut.EksiDebeFetcher.service;
 
+import com.dauut.EksiDebeFetcher.dao.EntryDatabaseConnectionService;
 import com.dauut.EksiDebeFetcher.dao.htmlfetcher.HtmlFetcher;
 import com.dauut.EksiDebeFetcher.model.Debe;
+import com.dauut.EksiDebeFetcher.utils.ConfigurationParams;
+import com.dauut.EksiDebeFetcher.utils.LocalTimeHelper;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
-import java.time.*;
+import java.time.LocalDate;
 
 @Service
 public class ScheduledFetchService {
@@ -16,34 +19,32 @@ public class ScheduledFetchService {
 
     private final DebeListBuildService debeListBuildService;
     private final HtmlFetcher htmlFetcher;
+    private final EntryDatabaseConnectionService entryController;
 
-    private Debe existedDebe = null;
+    private LocalDate lastSavedDate = null;
 
-    public ScheduledFetchService(DebeListBuildService debeListBuildService, HtmlFetcher htmlFetcher) {
+    public ScheduledFetchService(DebeListBuildService debeListBuildService, HtmlFetcher htmlFetcher,
+                                 EntryDatabaseConnectionService entryController) {
         this.debeListBuildService = debeListBuildService;
         this.htmlFetcher = htmlFetcher;
+        this.entryController = entryController;
     }
 
-    @Scheduled(cron = "*/10 * * * * *")
-    public void fetchDebeList() {
-        /*
+    @Scheduled(cron = "0/10 * * * * ?", zone="Europe/Istanbul")
+    public void fetchDebeListFirstRelease() {
         logger.info("Fetch debe list started");
         htmlFetcher.createTodayHtmlPageDoc(); // trigger to create today html page static document.
         Debe debe = debeListBuildService.buildDebe();
-        if (existedDebe != null && existedDebe.equals(debe))
+        if (lastSavedDate != null && lastSavedDate.equals(debe.getDate())) {
             logger.warn("Today's debe list already existed.");
-        else{
-            existedDebe = debe;
-            // todo save debe to db.
-            logger.info("Debe list recorded");
+        } else {
+            lastSavedDate = debe.getDate();
+            try {
+                entryController.initRecordQueries(debe);
+            } catch (InterruptedException e) {
+                logger.error("Record queries error!");
+                e.printStackTrace();
+            }
         }
-
-         */
-
-        Instant now = Instant.now();
-        ZonedDateTime istanbul =  now.atZone(ZoneId.of("Europe/Istanbul"));
-        LocalDateTime dateTime = istanbul.toLocalDateTime();
-        logger.info(dateTime);
     }
-
 }

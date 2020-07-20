@@ -11,4 +11,6 @@ public class ConfigurationParams {
     public static final String CAPTION_HEADER = "caption";
     public static final int FIRST = 1;
 
+    public static final String ISTANBUL_TIME_ZONE = "Europe/Istanbul";
+
 }
