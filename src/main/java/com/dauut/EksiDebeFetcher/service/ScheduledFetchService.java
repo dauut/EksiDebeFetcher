@@ -7,6 +7,8 @@ import org.apache.log4j.Logger;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import java.time.*;
+
 @Service
 public class ScheduledFetchService {
 
@@ -22,8 +24,9 @@ public class ScheduledFetchService {
         this.htmlFetcher = htmlFetcher;
     }
 
-    @Scheduled(cron = "*/30 * * * * *")
+    @Scheduled(cron = "*/10 * * * * *")
     public void fetchDebeList() {
+        /*
         logger.info("Fetch debe list started");
         htmlFetcher.createTodayHtmlPageDoc(); // trigger to create today html page static document.
         Debe debe = debeListBuildService.buildDebe();
@@ -34,6 +37,13 @@ public class ScheduledFetchService {
             // todo save debe to db.
             logger.info("Debe list recorded");
         }
+
+         */
+
+        Instant now = Instant.now();
+        ZonedDateTime istanbul =  now.atZone(ZoneId.of("Europe/Istanbul"));
+        LocalDateTime dateTime = istanbul.toLocalDateTime();
+        logger.info(dateTime);
     }
 
 }

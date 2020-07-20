@@ -8,7 +8,7 @@ import org.apache.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
+import java.time.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -17,6 +17,7 @@ import java.util.Map;
 public class DebeListBuildServiceImp implements DebeListBuildService {
 
     private static final Logger logger = LogManager.getLogger(DebeListBuildServiceImp.class);
+    private static final String ISTANBUL_TIME_ZONE = "Europe/Istanbul";
 
     @NotNull
     private final HtmlParseService htmlParseService;
@@ -57,10 +58,15 @@ public class DebeListBuildServiceImp implements DebeListBuildService {
 
     @Override
     public Debe buildDebe() {
+
         List<Entry> entryList = fetchEntryList();
         LocalDate today = LocalDate.now();
         int entryCount = entryList.size();
 
-        return new Debe(entryList,today,entryCount);
+        Instant now = Instant.now();
+        ZonedDateTime istanbulDateTime = now.atZone(ZoneId.of(ISTANBUL_TIME_ZONE));
+        LocalDateTime istanbulLocaltime = istanbulDateTime.toLocalDateTime();
+
+        return new Debe(entryList,today,entryCount, istanbulLocaltime);
     }
 }

@@ -3,6 +3,7 @@ package com.dauut.EksiDebeFetcher.model;
 import org.jetbrains.annotations.NotNull;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 
@@ -15,10 +16,14 @@ public class Debe {
     private LocalDate date;
     private int entryCount;
 
-    public Debe(@NotNull List<Entry> debeEntries, @NotNull LocalDate date, int entryCount) {
+    @NotNull
+    private LocalDateTime listCreationTime;
+
+    public Debe(@NotNull List<Entry> debeEntries, @NotNull LocalDate date, int entryCount, @NotNull LocalDateTime creationTime) {
         this.debeEntries = debeEntries;
         this.date = date;
         this.entryCount = entryCount;
+        this.listCreationTime = creationTime;
     }
 
     public @NotNull List<Entry> getDebeEntries() {
@@ -43,6 +48,14 @@ public class Debe {
 
     public void setEntryCount(int entryCount) {
         this.entryCount = entryCount;
+    }
+
+    public @NotNull LocalDateTime getListCreationTime() {
+        return listCreationTime;
+    }
+
+    public void setListCreationTime(@NotNull LocalDateTime listCreationTime) {
+        this.listCreationTime = listCreationTime;
     }
 
     @Override
