@@ -32,13 +32,12 @@ public class EntryDatabaseConnectionService {
         logger.info("Debe list query started..");
         createDebeListThread.join();
         logger.info("Debe list query finished..");
-
+        Thread.sleep(10);
         saveAllEntriesThread.start();
         logger.info("Save all entries, started...");
         saveAllEntriesThread.join();
         logger.info("Save all entries, completed...");
     }
-
 
     private void saveAllEntries(Debe debe) {
         entryRepository.saveAll(debe.getDebeEntriesAudit());
