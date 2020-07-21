@@ -7,7 +7,7 @@ import java.time.LocalDate;
 import java.util.Objects;
 
 @Entity
-@Table(name = "test_debe_entries")
+@Table(name = "debe_entries")
 @EntityListeners(AuditingEntityListener.class)
 public class EntryAudit {
     @Id

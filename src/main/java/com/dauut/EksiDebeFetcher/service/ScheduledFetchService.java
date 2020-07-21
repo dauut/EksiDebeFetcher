@@ -30,7 +30,7 @@ public class ScheduledFetchService {
         this.entryController = entryController;
     }
 
-    @Scheduled(cron = "0/10 * * * * ?", zone="Europe/Istanbul")
+    @Scheduled(cron = "0 0/1 * * * *", zone="Europe/Istanbul")
     public void fetchDebeListFirstRelease() {
         logger.info("Fetch debe list started");
         htmlFetcher.createTodayHtmlPageDoc(); // trigger to create today html page static document.
