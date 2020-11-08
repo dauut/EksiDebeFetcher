@@ -2,6 +2,7 @@
 
 > eksisozluk.con is one of the biggest social media websites in Turkey. It publishes the best posts of the prior's day 
 for 24 hours. After this period these posts vanish.
+>DEBE (Best posts of yesterday)
 
 This background service fetches best posts daily and create records on PostgreSQL table.
 
