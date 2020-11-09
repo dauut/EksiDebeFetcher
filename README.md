@@ -11,6 +11,7 @@ This background service fetches best posts daily and create records on PostgreSQ
 - PostgreSQL
 - Java 8+
 
+#### Project Structure
 ```
 .EksiDebeFetcher/                   # eksisozluk.com best posts fetcher
 ├── src                             # Source files 
