@@ -1,4 +1,4 @@
-package com.dauut.EksiDebeFetcher.dao;
+package com.dauut.EksiDebeFetcher.service;
 
 import com.dauut.EksiDebeFetcher.dao.datasource.DebeRepository;
 import com.dauut.EksiDebeFetcher.dao.datasource.EntryRepository;

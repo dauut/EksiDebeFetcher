@@ -1,6 +1,5 @@
 package com.dauut.EksiDebeFetcher.service;
 
-import com.dauut.EksiDebeFetcher.dao.EntryDatabaseConnectionService;
 import com.dauut.EksiDebeFetcher.dao.htmlfetcher.HtmlFetcher;
 import com.dauut.EksiDebeFetcher.model.Debe;
 import org.apache.log4j.LogManager;
