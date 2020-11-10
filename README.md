@@ -9,6 +9,7 @@ This background service fetches the DEBE (Best posts of yesterday) daily and cre
 - Spring Boot
 - PostgreSQL
 - Java 8+
+- Jsoup
 
 #### Project Structure
 ```
