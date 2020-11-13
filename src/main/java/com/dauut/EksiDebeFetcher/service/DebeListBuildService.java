@@ -8,6 +8,5 @@ import java.util.Map;
 
 public interface DebeListBuildService {
     List<Entry> fetchEntryList();
-    Map<Integer, String> getIdUrlMap();
     Debe buildDebe();
 }

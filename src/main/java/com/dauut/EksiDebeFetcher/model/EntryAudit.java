@@ -23,6 +23,9 @@ public class EntryAudit {
     @Column(name = "entry_header")
     private String header;
 
+    @Column(name = "author")
+    private String author;
+
     public int getEntryId() {
         return entryId;
     }
@@ -55,6 +58,14 @@ public class EntryAudit {
         this.header = header;
     }
 
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -63,11 +74,12 @@ public class EntryAudit {
         return entryId == that.entryId &&
                 Objects.equals(date, that.date) &&
                 Objects.equals(url, that.url) &&
-                Objects.equals(header, that.header);
+                Objects.equals(header, that.header) &&
+                Objects.equals(author, that.author);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(entryId, date, url, header);
+        return Objects.hash(entryId, date, url, header, author);
     }
 }

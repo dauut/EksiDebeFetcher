@@ -52,15 +52,11 @@ public class DebeListBuildServiceImp implements DebeListBuildService {
             String header = headers.get(i);
             String url = urls.get(i);
             int id = idList.get(i);
-            entryList.add(new Entry(id, url, header));
+            entryList.add(new Entry(id, url, header,"Generic"));
         }
         logger.info("Debe built: list size: " + entryList.size());
     }
 
-    @Override
-    public Map<Integer, String> getIdUrlMap() {
-        return null;
-    }
 
     @Override
     public Debe buildDebe() {
@@ -69,6 +65,7 @@ public class DebeListBuildServiceImp implements DebeListBuildService {
 
         LocalDateTime localTime = timeHelper.getZonedLocalDateTimeNow();
         LocalDate debeDate = timeHelper.getZonedLocalDateNow();
+
         List<Entry> entryList = fetchEntryList();
         List<EntryAudit> debeEntriesAudit = fetchEntryAudits(debeDate, entryList);
         int entryCount = entryList.size();
@@ -87,6 +84,7 @@ public class DebeListBuildServiceImp implements DebeListBuildService {
             audit.setEntryId(e.getEntryId());
             audit.setHeader(e.getHeader());
             audit.setUrl(e.getUrl());
+            audit.setAuthor(e.getAuthor());
             entryAuditList.add(audit);
         }
 

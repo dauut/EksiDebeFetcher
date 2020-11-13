@@ -45,6 +45,12 @@ public class HtmlParseServiceImp implements HtmlParseService{
         return idList;
     }
 
+    public List<String> collectAuthors(){
+        final List<String> authorList = new ArrayList<>();
+
+        return authorList;
+    }
+
     public Map<Integer, String> mapIdAndStringList(@NotNull List<String> strList,@NotNull List<Integer> idList){
 
         Map<Integer, String> idMap = new HashMap<>();

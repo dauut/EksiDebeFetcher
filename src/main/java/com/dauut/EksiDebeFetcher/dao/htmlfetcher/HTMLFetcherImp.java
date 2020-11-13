@@ -43,6 +43,12 @@ public class HTMLFetcherImp implements HtmlFetcher {
         return section.get(ConfigurationParams.FIRST).select("a");
     }
 
+    @Override
+    public Elements getAuthors() {
+//        Elements authorSection = htmlPageDoc.getElementsByClass(ConfigurationParams.AUTHOR_HEADER);
+        return null;
+    }
+
     ////FUTURE USE
     public Document getRequestedPageDocument(String url) throws IOException {
         return Jsoup.connect(url).get();
