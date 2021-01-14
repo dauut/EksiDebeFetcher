@@ -5,13 +5,16 @@ for 24 hours. After this period these posts vanish.
 
 This background service fetches the DEBE (Best posts of yesterday) daily and create records on PostgreSQL table.
 
-#### Requirements 
+### This is the *1st* service of an experimental `microservice` architecture.
+
+
+## Requirements 
 - Spring Boot
 - PostgreSQL
 - Java 8+
 - Jsoup
 
-#### Project Structure
+## Project Structure
 ```
 .EksiDebeFetcher/                   # eksisozluk.com best posts fetcher
 ├── src                             # Source files 
