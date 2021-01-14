@@ -4,7 +4,7 @@
 for 24 hours. After this period these posts vanish.
 
 This background service fetches the DEBE (Best posts of yesterday) daily and create records on PostgreSQL table.
-
+It produces the data that can be fetched via [eksidebeAPI Service](https://github.com/dauut/eksidebeAPI).
 ### This is the *1st* service of an experimental `microservice` architecture.
 
 
