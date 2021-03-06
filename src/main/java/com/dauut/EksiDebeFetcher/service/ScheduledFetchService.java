@@ -29,6 +29,7 @@ public class ScheduledFetchService {
 
 
     /* PRODUCTION TEST PURPOSES */
+    /*
     @Scheduled(cron = "01 31 07 * * *", zone="Europe/Istanbul")
     public void fetchDebeListFirstRelease1() {
         fetchData();
@@ -50,6 +51,12 @@ public class ScheduledFetchService {
     }
 
     @Scheduled(cron = "01 00 17 * * *", zone="Europe/Istanbul")
+    public void fetchDebeListFirstRelease5() {
+        fetchData();
+    }
+     */
+
+    @Scheduled(cron = "*/30 * * * * *", zone="Europe/Istanbul")
     public void fetchDebeListFirstRelease5() {
         fetchData();
     }
