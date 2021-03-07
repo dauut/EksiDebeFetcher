@@ -38,3 +38,4 @@ build/
 
 #python3 scripts
 scripts/venv
+scripts/db/config.ini
