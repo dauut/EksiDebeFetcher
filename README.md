@@ -12,11 +12,13 @@ It produces the data that can be fetched via [eksidebeAPI Service](https://githu
 - Spring Boot
 - PostgreSQL
 - Java 8+
+- Python3
 - Jsoup
 
 ## Project Structure
 ```
 .EksiDebeFetcher/                   # eksisozluk.com best posts fetcher
+├── scripts                         # python scripts 
 ├── src                             # Source files 
 |    ├── main
 |    |    ├── java                
