@@ -1,42 +1,59 @@
 import psycopg2
-import configparser
+from configparser import ConfigParser
 
 
-def connect_db():
-    cursor = None  # initial
-    conn = None  # initial
+def config(filename='C:\\Users\\dauut\\IdeaProjects\\EksiDebeFetcher\\scripts\\db\\config.ini', section='postgresql'):
+    print('connecting to ' + section)
+    # create a parser
+    parser = ConfigParser()
+    # read config file
+    parser.read(filename)
 
+    # get section, default to postgresql
+    db = {}
+    if parser.has_section(section):
+        params = parser.items(section)
+        for param in params:
+            db[param[0]] = param[1]
+    else:
+        raise Exception('Section {0} not found in the {1} file'.format(section, filename))
+
+    return db
+
+
+def connect(section='postgresql'):
+    """ Connect to the PostgreSQL database server """
+    conn = None
     try:
-        section_name = 'postgresql'  # section name in the config.ini, it can be used as parameter
-        config = configparser.ConfigParser()
-        config.read('config.ini')
-        if config.has_section(section_name):
+        # read connection parameters
+        params = config(section=section)
 
-            # read the options of the section. the config_params is a list object.
-            config_params = config.items(section_name)
+        # connect to the PostgreSQL server
+        print('Connecting to the PostgreSQL database...')
+        conn = psycopg2.connect(**params)
 
-            # so we need below code to convert the list object to a python dictionary object.
-            # define an empty dictionary.
-            db_conn_dict = {}
+        # create a cursor
+        cur = conn.cursor()
 
-            # loop in the list.
-            for config_param in config_params:
-                # get options key and value.
-                key = config_param[0]
-                value = config_param[1]
+        # execute a statement
+        print('PostgreSQL database version:')
+        cur.execute('SELECT version()')
 
-                # add the key value pair in the dictionary object.
-                db_conn_dict[key] = value
+        # display the PostgreSQL database server version
+        db_version = cur.fetchone()
+        print(db_version)
 
-            # get connection object use above dictionary object.
-            conn = psycopg2.connect(**db_conn_dict)
-            print("******* get postgresql database connection with configuration file ********", "\n")
-        # connect_str = "dbname='eksidebe' user='eksiuser' host='192.168.1.23' " + \
-        #               "password='dauut13'"
-        # create a psycopg2 cursor that can execute queries
+        # close the communication with the PostgreSQL
+        cur.close()
+    except (Exception, psycopg2.DatabaseError) as error:
+        print(error)
 
-        cursor = conn.cursor()
-    except Exception as e:
-        print(e)
+    return conn.cursor(), conn
+    # finally:
+    #     if conn is not None:
+    #         conn.close()
+    #         print('Database connection closed.')
 
-    return cursor, conn
+
+# if __name__ == '__main__':
+#     connect()

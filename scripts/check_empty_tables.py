@@ -39,12 +39,14 @@ def read_dates_from_file(filename):
 
 def main():
     dates = read_dates_from_file("dates.txt")
-    cursor, conn = pc.connect_db()  # connect via credentials
+    cursor, conn = pc.connect()  # connect via credentials, config.ini requires absolute path
+    i = 0
     for d in dates:
         res = find_unmatched_table(d, cursor)
         if not res:
-            # print_anomalies(d)
-            print(d)
+            i += 1
+            print_anomalies(d)
+    print(str(i) + " anomalies found")
     cursor.close()
     conn.close()
 
