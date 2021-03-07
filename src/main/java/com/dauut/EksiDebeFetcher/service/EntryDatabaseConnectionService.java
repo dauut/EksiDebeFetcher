@@ -14,7 +14,6 @@ import org.springframework.stereotype.Service;
 public class EntryDatabaseConnectionService {
 
     private static final Logger logger = LogManager.getLogger(EntryDatabaseConnectionService.class);
-
     private final EntryRepository entryRepository;
     private final DebeRepository debeRepository;
 
@@ -29,14 +28,10 @@ public class EntryDatabaseConnectionService {
         Thread saveAllEntriesThread = new Thread(() -> saveAllEntries(debe));
 
         createDebeListThread.start();
-        logger.info("Debe list query started..");
         createDebeListThread.join();
-        logger.info("Debe list query finished..");
         Thread.sleep(10);
         saveAllEntriesThread.start();
-        logger.info("Save all entries, started...");
         saveAllEntriesThread.join();
-        logger.info("Save all entries, completed...");
     }
 
     private void saveAllEntries(Debe debe) {

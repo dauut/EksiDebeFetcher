@@ -2,12 +2,12 @@ package com.dauut.EksiDebeFetcher.service;
 
 import com.dauut.EksiDebeFetcher.dao.htmlfetcher.HtmlFetcher;
 import com.dauut.EksiDebeFetcher.model.Debe;
+import com.dauut.EksiDebeFetcher.utils.ConfigurationParams;
+import com.dauut.EksiDebeFetcher.utils.LocalTimeHelper;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
-
-import java.time.LocalDate;
 
 @Service
 public class ScheduledFetchService {
@@ -17,64 +17,38 @@ public class ScheduledFetchService {
     private final DebeListBuildService debeListBuildService;
     private final HtmlFetcher htmlFetcher;
     private final EntryDatabaseConnectionService entryController;
+    private final CheckDebeService checkDebeService;
 
-    private LocalDate lastSavedDate = null;
 
     public ScheduledFetchService(DebeListBuildService debeListBuildService, HtmlFetcher htmlFetcher,
-                                 EntryDatabaseConnectionService entryController) {
+                                 EntryDatabaseConnectionService entryController, CheckDebeService checkDebeService) {
         this.debeListBuildService = debeListBuildService;
         this.htmlFetcher = htmlFetcher;
         this.entryController = entryController;
+        this.checkDebeService = checkDebeService;
     }
 
+    @Scheduled(cron = "0 0/15 * * * ?", zone = "Europe/Istanbul") //every 15 minutes
+    public void fetchDebeListFirstRelease() {
+        LocalTimeHelper localTimeHelper = new LocalTimeHelper(ConfigurationParams.ISTANBUL_TIME_ZONE);
+        if (!checkDebeService.entryCountsMatched(localTimeHelper.getZonedLocalDateNow())){
+            logger.warn("Today's debe is missing. Fetching again... ");
+            fetchData();
+        }else{
+            logger.info("Today's debe looks fine.");
+        }
 
-    /* PRODUCTION TEST PURPOSES */
-    /*
-    @Scheduled(cron = "01 31 07 * * *", zone="Europe/Istanbul")
-    public void fetchDebeListFirstRelease1() {
-        fetchData();
-    }
-
-    @Scheduled(cron = "01 35 07 * * *", zone="Europe/Istanbul")
-    public void fetchDebeListFirstRelease2() {
-        fetchData();
-    }
-
-    @Scheduled(cron = "01 00 08 * * *", zone="Europe/Istanbul")
-    public void fetchDebeListFirstRelease3() {
-        fetchData();
-    }
-
-    @Scheduled(cron = "01 00 09 * * *", zone="Europe/Istanbul")
-    public void fetchDebeListFirstRelease4() {
-        fetchData();
-    }
-
-    @Scheduled(cron = "01 00 17 * * *", zone="Europe/Istanbul")
-    public void fetchDebeListFirstRelease5() {
-        fetchData();
-    }
-     */
-
-    @Scheduled(cron = "*/30 * * * * *", zone="Europe/Istanbul")
-    public void fetchDebeListFirstRelease5() {
-        fetchData();
     }
 
     private void fetchData() {
-        logger.info("Fetch debe list started");
+        logger.info("Starting fetch...");
         htmlFetcher.createTodayHtmlPageDoc(); // trigger to create today html page static document.
         Debe debe = debeListBuildService.buildDebe();
-        if (lastSavedDate != null && lastSavedDate.equals(debe.getDate())) {
-            logger.warn("Today's debe list already existed.");
-        } else {
-            lastSavedDate = debe.getDate();
-            try {
-                entryController.initRecordQueries(debe);
-            } catch (InterruptedException e) {
-                logger.error("Record queries error!");
-                e.printStackTrace();
-            }
+        try {
+            entryController.initRecordQueries(debe);
+        } catch (InterruptedException e) {
+            logger.error("Record queries error!");
+            e.printStackTrace();
         }
     }
 

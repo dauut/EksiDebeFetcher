@@ -7,5 +7,4 @@ public interface HtmlFetcher {
     Elements getEntriesListSection();
     Elements getEntriesHeaders();
     Elements getEntryLinks();
-    Elements getAuthors();
 }

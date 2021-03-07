@@ -9,6 +9,5 @@ public interface HtmlParseService {
     List<String> collectHeaders();
     List<String> collectEntryUrls();
     List<Integer> collectEntryIds();
-    List<String> collectAuthors();
     Map<Integer, String> mapIdAndStringList(@NotNull List<String> strList, @NotNull List<Integer> idList);
 }
