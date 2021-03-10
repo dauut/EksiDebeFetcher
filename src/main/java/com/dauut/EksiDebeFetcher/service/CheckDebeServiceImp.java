@@ -45,9 +45,8 @@ public class CheckDebeServiceImp implements CheckDebeService {
         logger.info("Debe checked at : " + date.toString()
                 + "; entry_count = " + entryCount + "; actualCount = " + actualEntryCount);
 
-        return (actualEntryCount == -1 || entryCount == -1) ||
-                Math.abs(actualEntryCount - entryCount) <= 10;
-
+        return actualEntryCount != -1 && entryCount != -1 &&
+                Math.abs(actualEntryCount - entryCount) < 10;
 //        return actualEntryCount != -1 && entryCount == actualEntryCount;
     }
 }
