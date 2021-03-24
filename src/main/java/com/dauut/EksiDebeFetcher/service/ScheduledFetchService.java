@@ -27,40 +27,19 @@ public class ScheduledFetchService {
         this.checkDebeService = checkDebeService;
     }
 
-    /* not a very good solution but it works for now
-    * Todo it should be fixed as every 15 minutes between 7:35 am and 11:00 PM
-    * */
-    @Scheduled(cron = "01 31 07 * * *", zone="Europe/Istanbul")
+    // first check at 8 AM
+    @Scheduled(cron = "01 31 07 * * *")
     public void fetchDebeListFirstRelease1() {
         fetchDebeListFirstRelease();
     }
 
-    @Scheduled(cron = "01 35 07 * * *", zone="Europe/Istanbul")
+    // first check at 9 AM
+    @Scheduled(cron = "01 35 07 * * *")
     public void fetchDebeListFirstRelease2() {
         fetchDebeListFirstRelease();
     }
 
-    @Scheduled(cron = "01 00 08 * * *", zone="Europe/Istanbul")
-    public void fetchDebeListFirstRelease3() {
-        fetchDebeListFirstRelease();
-    }
-
-    @Scheduled(cron = "01 00 09 * * *", zone="Europe/Istanbul")
-    public void fetchDebeListFirstRelease4() {
-        fetchDebeListFirstRelease();
-    }
-
-    @Scheduled(cron = "01 00 17 * * *", zone="Europe/Istanbul")
-    public void fetchDebeListFirstRelease5() {
-        fetchDebeListFirstRelease();
-    }
-
-    @Scheduled(cron = "01 00 23 * * *", zone="Europe/Istanbul")
-    public void fetchDebeListFirstRelease6() {
-        fetchDebeListFirstRelease();
-    }
-
-//    @Scheduled(cron = "0 0/1 * * * ?", zone = "Europe/Istanbul") //every 15 minutes
+//    @Scheduled(cron = "0 0/1 * * * ?") // manual trigger
     public void fetchDebeListFirstRelease() {
         LocalTimeHelper localTimeHelper = new LocalTimeHelper(ConfigurationParams.ISTANBUL_TIME_ZONE);
         if (!checkDebeService.entryCountsMatched(localTimeHelper.getZonedLocalDateNow())){
