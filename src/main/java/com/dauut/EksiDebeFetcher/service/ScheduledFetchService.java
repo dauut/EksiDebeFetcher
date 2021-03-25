@@ -28,18 +28,24 @@ public class ScheduledFetchService {
     }
 
     // first check at 8 AM
-    @Scheduled(cron = "01 31 07 * * *")
+    @Scheduled(cron = "01 31 08 * * *")
     public void fetchDebeListFirstRelease1() {
         fetchDebeListFirstRelease();
     }
 
     // first check at 9 AM
-    @Scheduled(cron = "01 35 07 * * *")
+    @Scheduled(cron = "01 35 09 * * *")
     public void fetchDebeListFirstRelease2() {
         fetchDebeListFirstRelease();
     }
 
-//    @Scheduled(cron = "0 0/1 * * * ?") // manual trigger
+    // first check at 9 AM
+    @Scheduled(cron = "01 35 10 * * *")
+    public void fetchDebeListFirstRelease3() {
+        fetchDebeListFirstRelease();
+    }
+
+    @Scheduled(cron = "0 0/1 * * * ?") // manual trigger
     public void fetchDebeListFirstRelease() {
         LocalTimeHelper localTimeHelper = new LocalTimeHelper(ConfigurationParams.ISTANBUL_TIME_ZONE);
         if (!checkDebeService.entryCountsMatched(localTimeHelper.getZonedLocalDateNow())){
