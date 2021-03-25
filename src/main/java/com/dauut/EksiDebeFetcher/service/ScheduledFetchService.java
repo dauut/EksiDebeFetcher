@@ -9,6 +9,8 @@ import org.apache.log4j.Logger;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+
 @Service
 public class ScheduledFetchService {
 
@@ -45,7 +47,7 @@ public class ScheduledFetchService {
         fetchDebeListFirstRelease();
     }
 
-    @Scheduled(cron = "0 0/1 * * * ?") // manual trigger
+//    @Scheduled(cron = "0 0/1 * * * ?") // manual trigger
     public void fetchDebeListFirstRelease() {
         LocalTimeHelper localTimeHelper = new LocalTimeHelper(ConfigurationParams.ISTANBUL_TIME_ZONE);
         if (!checkDebeService.entryCountsMatched(localTimeHelper.getZonedLocalDateNow())){
